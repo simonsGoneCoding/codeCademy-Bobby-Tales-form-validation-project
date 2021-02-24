@@ -8,7 +8,13 @@ $existing_users = ["admin", "guest"];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $name = $_POST["name"];
-  $character = $_POST["character"];
+  // $character = $_POST["character"];
+  ($raw_character = $_POST['character']);
+    if(in_array($raw_character, ["wizard", "mage", 'orc'])){
+      $character = $raw_character; 
+    }else{
+      $validation_error = "You must pick a wizard, mage, or orc. <br>";
+    }
   $email = $_POST["email"];
   $birth_year = $_POST["birth_year"];
 }
@@ -31,7 +37,7 @@ value="<?php
 </p>
 <p>
 Select a character:
-  <input type="radio" name="character" value="wizard" <?php echo ($character=='wizard')?'checked':'' ?>> Wizard
+  <input type="radio" name="character" value="wizard" <?php echo ($character =="wizard")?"checked":"" ?>> Wizard
   <input type="radio" name="character" value="mage" <?php echo ($character=='mage')?'checked':'' ?>> Mage
   <input type="radio" name="character" value="orc" <?php echo ($character=='orc')?'checked':'' ?>> Orc
 </p>
