@@ -16,7 +16,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <h1>Create your profile</h1>
 <form method="post" action="">
 <p>
-Select a name: <input type="text" name="name" value="<?php echo $name;?>" >
+Select a name: <input type="text" name="name" 
+value="<?php 
+  $raw_name = trim(htmlspecialchars($_POST["name"]));
+  echo $name;
+  if(in_array($raw_name, $existing_users)){
+    $validation_error = 'This name is taken. <br>'; 
+  }else{
+    $name = $raw_name;
+  }
+  
+  ?>"
+>
 </p>
 <p>
 Select a character:
