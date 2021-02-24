@@ -7,23 +7,8 @@ $validation_error = "";
 $existing_users = ["admin", "guest"];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $name = $_POST["name"];
-  // $character = $_POST["character"];
-  ($raw_character = $_POST['character']);
-    if(in_array($raw_character, ["wizard", "mage", 'orc'])){
-      $character = $raw_character; 
-    }else{
-      $validation_error = "You must pick a wizard, mage, or orc. <br>";
-    }
-  $email = $_POST["email"];
-  $birth_year = $_POST["birth_year"];
-}
-?>
-<h1>Create your profile</h1>
-<form method="post" action="">
-<p>
-Select a name: <input type="text" name="name" 
-value="<?php 
+  // $name = $_POST["name"];
+  //checking name 
   $raw_name = trim(htmlspecialchars($_POST["name"]));
   echo $name;
   if(in_array($raw_name, $existing_users)){
@@ -31,9 +16,34 @@ value="<?php
   }else{
     $name = $raw_name;
   }
-  
-  ?>"
->
+  // $character = $_POST["character"];
+  //checking character
+  ($raw_character = $_POST['character']);
+    if(in_array($raw_character, ["wizard", "mage", 'orc'])){
+      $character = $raw_character; 
+    }else{
+      $validation_error = "You must pick a wizard, mage, or orc. <br>";
+    }
+  // $email = $_POST["email"];
+  //checking email: 
+  $raw_email = $_POST['email'];
+    if(filter_var($raw_email, FILTER_VALIDATE_EMAIL)){
+      $email = $raw_email; 
+    }else{
+      $validation_error = "Invalid email. <br>";
+    }
+
+
+
+  $birth_year = $_POST["birth_year"];
+}
+?>
+
+
+<h1>Create your profile</h1>
+<form method="post" action="">
+<p>
+Select a name: <input type="text" name="name" value="<?php echo $name ?>">
 </p>
 <p>
 Select a character:
