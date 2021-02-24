@@ -12,9 +12,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $raw_name = trim(htmlspecialchars($_POST["name"]));
   echo $name;
   if(in_array($raw_name, $existing_users)){
-    $validation_error = 'This name is taken. <br>'; 
+    $validation_error .= 'This name is taken. <br>'; 
   }else{
     $name = $raw_name;
+    if(!$name){
+    $validation_error = "No name given.<br>";
+  }
   }
   // $character = $_POST["character"];
   //checking character
@@ -22,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(in_array($raw_character, ["wizard", "mage", 'orc'])){
       $character = $raw_character; 
     }else{
-      $validation_error = "You must pick a wizard, mage, or orc. <br>";
+      $validation_error .= "You must pick a wizard, mage, or orc. <br>";
     }
   // $email = $_POST["email"];
   //checking email: 
@@ -30,12 +33,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(filter_var($raw_email, FILTER_VALIDATE_EMAIL)){
       $email = $raw_email; 
     }else{
-      $validation_error = "Invalid email. <br>";
+      $validation_error .= "Invalid email. <br>";
     }
 
+  // $birth_year = $_POST["birth_year"];
+  //validate birth date: 
+  $raw_birth_year = $_POST['birth_year'];
+  $options = ["options" => ["min_range" => 1900, "max_range" => date("Y")]];
+  if(filter_var($raw_birth_year, FILTER_VALIDATE_INT, $options)){
+    $birth_year = $raw_birth_year; 
+  }else{
+    $validation_error .= "That can't be your birth year. <br>";
+  }
 
-
-  $birth_year = $_POST["birth_year"];
 }
 ?>
 
